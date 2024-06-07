@@ -1,9 +1,9 @@
 import react from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, StyleSheet } from 'react-native';
 
 function Home() {
     return (
-        <View>
+        <View style= {styles.container}>
             <Text>Home</Text>
             <Button title='Login' onPress={() => alert('Login')}/>
             <Button title='Register' onPress={() => alert('Register')}/>
@@ -12,3 +12,11 @@ function Home() {
 }
 
 export default Home;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+});

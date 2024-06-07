@@ -1,20 +1,135 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Llogin from './src/components/auth/Llogin';
+import Register from './src/components/auth/Register';
+import Home from './src/components/home/Home';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import RegisterNotAllowed from './src/components/auth/RegisterNotAllowed';
+import RegisterAllowed from './src/components/auth/RegisterAllowed';
+import RecuperarClave from './src/components/auth/RecuperarClave';
+import { ContextForApp, AuthContext } from './src/components/context/ContextForApp';
+import Cosas from './src/components/tasks/Cosas';
+import Profile from './src/components/profile/Profile';
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+function TabNavigator() {
+
+  const {state} = React.useContext(AuthContext); 
+
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: '#0077B6',
+        tabBarInactiveTintColor: '#79797A',
+        tabBarStyle: {
+          backgroundColor: '#f8f8f8', // Color de fondo de la barra de pestañas
+          borderTopWidth: 1, // Grosor de la línea superior
+          borderTopColor: '#0077B6', // Color de la línea superior
+          height: 60, // Altura de la barra de pestañas
+          paddingHorizontal: 100, // Espaciado derecho
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: 'bold'
+        }
+      }}
+    >
+
+      {state.isAuthenticated ? <Tab.Screen 
+      name='Menu' 
+      component={Cosas} 
+      options={{ 
+        headerShown: false, 
+        tabBarIcon: ({color, size}) => (
+          <MaterialCommunityIcons name='clipboard' color={color} size={35}/>
+        )
+      }}/> : null}
+
+      <Tab.Screen 
+      name='Home' 
+      component={Home}
+      options={{ 
+        headerShown: false, 
+        tabBarLabel: 'Inicio',
+        tabBarIcon: ({color, size}) => (
+          <MaterialCommunityIcons name='home' color={color} size={35}/>
+        )
+      }}/>
+
+      {state.isAuthenticated ? 
+      
+      
+      <Tab.Screen 
+      name='Perfil' 
+      component={Profile} 
+      options={{ 
+        headerShown: false, 
+        tabBarIcon: ({color, size}) => (
+          <MaterialCommunityIcons name='account-circle' color={color} size={35}/>
+        )
+      }}/> 
+
+      : 
+
+      <Tab.Screen 
+      name='Perfil' 
+      component={Llogin} 
+      options={{ 
+        headerShown: false, 
+        tabBarIcon: ({color, size}) => (
+          <MaterialCommunityIcons name='account-key' color={color} size={35}/>
+        )
+      }}/> 
+       
+    }
+      
+    </Tab.Navigator>
+  );
+
+}
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ContextForApp>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='Tabs'>
+
+          <Stack.Screen
+          name='Tabs'
+          component={TabNavigator}
+          options={{ headerShown: false }}
+          />
+
+          <Stack.Screen 
+          name='Register' 
+          component={Register}
+          options={{ headerShown: false }}
+          />
+
+          <Stack.Screen 
+          name='RegNotAllowed' 
+          component={RegisterNotAllowed}
+          options={{ headerShown: false }}
+          />
+
+          <Stack.Screen 
+          name='RegAllowed' 
+          component={RegisterAllowed}
+          options={{ headerShown: false }}
+          />
+
+          <Stack.Screen 
+          name='RecuperarClave' 
+          component={RecuperarClave}
+          options={{ headerShown: false }}
+          />
+
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ContextForApp>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
