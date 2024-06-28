@@ -45,6 +45,7 @@ function Cosas({navigation}) {
                         <Text style= {styles.text}>¿Viste algo que este por fuera de la ley?</Text>
                         <Text style= {styles.text}>Denuncialo</Text>
                         <TouchableOpacity
+                        onPress={() => navigation.navigate('IniciarDenuncia')}
                         style= {styles.button}
                         >
                             <Text style= {styles.textButton}>Denunciar</Text>

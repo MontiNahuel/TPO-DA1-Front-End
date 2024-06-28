@@ -21,6 +21,10 @@ import FormParaAnuncio from './src/components/tasks/anuncio/FormParaAnuncio';
 import SeleccionDeAnuncio from './src/components/tasks/anuncio/SeleccionDeAnuncio';
 import Imagenes from './src/components/tasks/anuncio/Imagenes';
 import { ImageProvider } from './src/components/tasks/anuncio/ImageProvider';
+import IniciarDenuncia from './src/components/tasks/denuncia/IniciarDenuncia';
+import CrearDenuncia from './src/components/tasks/denuncia/CrearDenuncia';
+import ArchivosDenuncia from './src/components/tasks/denuncia/ArchivosDenuncia';
+import PrevisualizarDenuncia from './src/components/tasks/denuncia/PrevisualizarDenuncia';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -182,6 +186,30 @@ export default function App() {
             <Stack.Screen 
             name='Imagenes' 
             component={Imagenes}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='IniciarDenuncia' 
+            component={IniciarDenuncia}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='CrearDenuncia' 
+            component={CrearDenuncia}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='ArchivosDenuncia' 
+            component={ArchivosDenuncia}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='PrevisualizarDenuncia' 
+            component={PrevisualizarDenuncia}
             options={{ headerShown: false }}
             />
             
