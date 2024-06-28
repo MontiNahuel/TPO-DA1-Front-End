@@ -1,0 +1,23 @@
+export default[
+    {
+        id:123456,
+        nombre:'MisDenunciasScreen',
+        fecha:'11/06/2024',
+        hora:'21:06',
+        estado:'Enviado'
+    },
+    {
+        id:1234567,
+        nombre:'MisDenunciasScreen',
+        fecha:'11/06/2024',
+        hora:'21:06',
+        estado:'Enviado'
+    },
+    {
+        id:1234568,
+        nombre:'MisDenunciasScreen',
+        fecha:'11/06/2024',
+        hora:'21:06',
+        estado:'Enviado'
+    }
+]

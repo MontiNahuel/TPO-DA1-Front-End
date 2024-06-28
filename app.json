@@ -11,6 +11,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "permissions": [
+      "CAMERA",
+      "MEDIA_LIBRARY_READ_WRITE"
+    ],
     "ios": {
       "supportsTablet": true
     },

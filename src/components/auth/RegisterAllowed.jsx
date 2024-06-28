@@ -1,13 +1,35 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-native";
 import theme from "../../themeTextLight";
+import { inscribirResidente } from "../../backend/authRegister";
 
-function RegisterAllowed() {
+function RegisterAllowed({navigation, route}) {
+    const {dni} = route.params;
+    const [email, setEmail] = useState("");
+
+    const finalizarRegistro = () => {
+        //alert('Registro Finalizado');
+        inscribirResidente({dni: dni, email: email})
+        .then(response => {
+            alert(response);
+            navigation.navigate('Home');
+        }).catch(error => {
+            alert(error.message);
+        });
+
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.textTitle}>Registro</Text>
             <Text style={styles.text}>Excelente, figuras como residente</Text>
-            <TextInput placeholder="Email" placeholderTextColor={theme.colors.buttonColor} style={styles.input}/>
+            <TextInput 
+            placeholder="Email" 
+            placeholderTextColor={theme.colors.buttonColor} 
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            />
             <Text style={styles.text}>
                 Una vez que el municipio revise la solicitud, se le enviará un
                 mail informando la situación
@@ -17,7 +39,7 @@ function RegisterAllowed() {
                 podrá modificar una vez dentro de la aplicación
             </Text>
             <TouchableOpacity
-            onPress={() => alert('Solicitar Clave')}
+            onPress={finalizarRegistro}
             style={styles.button}
             >
                 <Text style={styles.textForButton}>

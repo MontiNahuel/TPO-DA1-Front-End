@@ -23,7 +23,7 @@ function authLogin(credencial, password) {
                 reject({message: "Error al obtener token"});
             });
         } else {
-            console.log("Error al iniciar sesion", response.status);
+            reject({message: "Error al iniciar sesion", response: response.status});
         }
     }).catch(error => {
         console.log("Error al iniciar sesion: ", error);
@@ -53,7 +53,7 @@ function authLoginInspector(credencial, password) {
                 reject({message: "Error al obtener token"});
                 });
             } else {
-                console.log("Error al iniciar sesion", response.status);
+                reject({message: "Error al iniciar sesion", response: response.status});
             }
         }).catch(error => {
             console.log("Error al iniciar sesion: ", error);

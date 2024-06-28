@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 
-function StyledSwitch({texto1, texto2, pressFunction}) {
+function StyledSwitch({texto1, texto2, pressFunction, changeMessage}) {
 
     const [estadoSwitch, setEstadoSwitch] = useState(true);
 
@@ -11,12 +11,12 @@ function StyledSwitch({texto1, texto2, pressFunction}) {
             <View style= {styles.innerContainer}>
                 <TouchableOpacity 
                 style= {[styles.button, estadoSwitch ? styles.buttonActive : null]}
-                onPress={() => {setEstadoSwitch(true); pressFunction(true);}}
+                onPress={() => {setEstadoSwitch(true); pressFunction(true); changeMessage && changeMessage(false);}}
                 >
                     <Text style={[styles.textButton, estadoSwitch ? styles.textActive : null]}>{texto1}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style = {[styles.button, !estadoSwitch ? styles.buttonActive : null]}
-                onPress={() => {setEstadoSwitch(false); pressFunction(false);}}
+                onPress={() => {setEstadoSwitch(false); pressFunction(false); changeMessage && changeMessage(false);}}
                 >
                     <Text style={[styles.textButton, !estadoSwitch ? styles.textActive : null]}>{texto2}</Text>
                 </TouchableOpacity>

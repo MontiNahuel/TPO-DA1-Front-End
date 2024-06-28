@@ -4,7 +4,7 @@ import Accordion from "../Accordion";
 import theme from "../../themeTextLight";
 import styleAccordion from "../../styles/styleAccordion";
 
-function RecuperarClave() {
+function RecuperarClave({navigation}) {
     const [tipoDocumento, setTipoDocumento] = useState(-1);
     const [documento, setDocumento] = useState('');
     const [email, setEmail] = useState('');
@@ -57,6 +57,7 @@ function RecuperarClave() {
             </TouchableOpacity>
             <TouchableOpacity
             style={styles.buttonSecondary}
+            onPress={() => navigation.goBack()}
             >
                 <Text
                 style={styles.textForButtonSecondary}

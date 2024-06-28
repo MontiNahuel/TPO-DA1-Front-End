@@ -26,9 +26,12 @@ export default function Register({navigation}) {
         verificarResidente(newDni)
         .then(response => {
             alert(response);
-            navigation.navigate('RegAllowed');
+            navigation.navigate('RegAllowed', {dni: newDni});
         }).catch(error => {
             alert(error.message);
+            if (error.notAllowed === 1) {
+                navigation.navigate('RegNotAllowed');
+            }
         })
     }
 

@@ -12,6 +12,15 @@ import RecuperarClave from './src/components/auth/RecuperarClave';
 import { ContextForApp, AuthContext } from './src/components/context/ContextForApp';
 import Cosas from './src/components/tasks/Cosas';
 import Profile from './src/components/profile/Profile';
+import ProfileData from './src/components/profile/ProfileData';
+import {MisDenunciasScreen} from './src/components/profile/misDenuncias';
+import { MisReclamosScreen } from './src/components/profile/MisReclamos';
+import DenunciaDetalle from './src/components/profile/DenunciaDetalle';
+import ReclamoDetalleScreen from './src/components/profile/ReclamoDetalle';
+import FormParaAnuncio from './src/components/tasks/anuncio/FormParaAnuncio';
+import SeleccionDeAnuncio from './src/components/tasks/anuncio/SeleccionDeAnuncio';
+import Imagenes from './src/components/tasks/anuncio/Imagenes';
+import { ImageProvider } from './src/components/tasks/anuncio/ImageProvider';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -29,7 +38,7 @@ function TabNavigator() {
           borderTopWidth: 1, // Grosor de la línea superior
           borderTopColor: '#0077B6', // Color de la línea superior
           height: 60, // Altura de la barra de pestañas
-          paddingHorizontal: 100, // Espaciado derecho
+          paddingHorizontal: state.isAuthenticated ? 20 : 50, // Espaciado derecho
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -80,7 +89,7 @@ function TabNavigator() {
       options={{ 
         headerShown: false, 
         tabBarIcon: ({color, size}) => (
-          <MaterialCommunityIcons name='account-key' color={color} size={35}/>
+          <MaterialCommunityIcons name='account-circle' color={color} size={35}/>
         )
       }}/> 
        
@@ -94,41 +103,91 @@ function TabNavigator() {
 export default function App() {
   return (
     <ContextForApp>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName='Tabs'>
+      <ImageProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName='Tabs'>
 
-          <Stack.Screen
-          name='Tabs'
-          component={TabNavigator}
-          options={{ headerShown: false }}
-          />
+            <Stack.Screen
+            name='Tabs'
+            component={TabNavigator}
+            options={{ headerShown: false }}
+            />
 
-          <Stack.Screen 
-          name='Register' 
-          component={Register}
-          options={{ headerShown: false }}
-          />
+            <Stack.Screen 
+            name='Register' 
+            component={Register}
+            options={{ headerShown: false }}
+            />
 
-          <Stack.Screen 
-          name='RegNotAllowed' 
-          component={RegisterNotAllowed}
-          options={{ headerShown: false }}
-          />
+            <Stack.Screen 
+            name='RegNotAllowed' 
+            component={RegisterNotAllowed}
+            options={{ headerShown: false }}
+            />
 
-          <Stack.Screen 
-          name='RegAllowed' 
-          component={RegisterAllowed}
-          options={{ headerShown: false }}
-          />
+            <Stack.Screen 
+            name='RegAllowed' 
+            component={RegisterAllowed}
+            options={{ headerShown: false }}
+            />
 
-          <Stack.Screen 
-          name='RecuperarClave' 
-          component={RecuperarClave}
-          options={{ headerShown: false }}
-          />
+            <Stack.Screen 
+            name='RecuperarClave' 
+            component={RecuperarClave}
+            options={{ headerShown: false }}
+            />
 
-        </Stack.Navigator>
-      </NavigationContainer>
+            <Stack.Screen 
+            name='ProfileData' 
+            component={ProfileData}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='ProfileDenuncias' 
+            component={MisDenunciasScreen}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='ProfileReclamos' 
+            component={MisReclamosScreen}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='ProfileDenunciasDetalle' 
+            component={DenunciaDetalle}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='ProfileReclamoDetalle' 
+            component={ReclamoDetalleScreen}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='SeleccionDeAnuncio' 
+            component={SeleccionDeAnuncio}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='FormParaAnuncio' 
+            component={FormParaAnuncio}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='Imagenes' 
+            component={Imagenes}
+            options={{ headerShown: false }}
+            />
+            
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ImageProvider>
     </ContextForApp>
   );
 }

@@ -19,6 +19,8 @@ export default function Llogin() {
     const [isVecino, setIsVecino] = useState(true);
     const [dni, setDni] = useState('');
     const [password, setPassword] = useState('');
+    const [showMessage, setShowMessage] = useState(false);
+    const [message, setMessage] = useState('Inicio de sesion no valido');
 
     const loginVecino = () => {
         authLogin(dni, password)
@@ -30,6 +32,7 @@ export default function Llogin() {
         })
         .catch(error => {
             console.log(error);
+            setShowMessage(true);
         }
         );
     }
@@ -43,6 +46,8 @@ export default function Llogin() {
             navigation.navigate('Home');
         }).catch(error => {
             console.log(error);
+            //console.log("hola");
+            setShowMessage(true);
         });
     }
 
@@ -51,7 +56,7 @@ export default function Llogin() {
 
             <StyledText color='primary' size='title' style = {styles.title}>Bienvenido</StyledText>
 
-            <StyledSwitch texto1="Vecino" texto2="Inspector" pressFunction={setIsVecino}/>
+            <StyledSwitch texto1="Vecino" texto2="Inspector" pressFunction={setIsVecino} changeMessage={setShowMessage}/>
 
             <View style= {styles.inputs}>
                 <StyledTextInput 
@@ -67,7 +72,7 @@ export default function Llogin() {
                 onChangeText={setPassword}
                 />
             </View>
-
+            {showMessage && <Text style={{color: 'red', textAlign: 'center', marginBottom: 10}}>{message}</Text>}
             <TouchableOpacity 
             title="Ir a Registro" 
             onPress={isVecino ? loginVecino : loginInspector}
