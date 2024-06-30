@@ -1,19 +1,41 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { CheckBox } from 'react-native-elements';
+import { guardarDenuncia } from "../../../backend/denuncia";
+import { AuthContext } from "../../context/ContextForApp";
 
 const PrevisualizarDenuncia = ({ navigation, route }) => {
     const { nombre, direccion, motivo } = route.params;
     const [isSelected, setSelection] = useState(false);
+    const { state, dispatch } = React.useContext(AuthContext);
+
+    const handlePublish = () => {
+        // Publicar denuncia
+        const documento = state.userId;
+        const aceptaresponsabilidad = isSelected ? "1" : "0";  // Usar el nombre correcto
+        const idSitio = null;
+        const estado = null;
+        
+        guardarDenuncia({
+            documento, 
+            idSitio, 
+            descripcion : motivo, 
+            estado, 
+            aceptaresponsabilidad  // Usar el nombre correcto
+        }, state.token).then(() => {
+            navigation.navigate('Home');
+            console.log('Denuncia publicada');
+        }).catch((error) => {
+            console.log('Error al publicar la denuncia: ', error);
+        });
+    };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.containerDenun}>
                 <Text style={styles.textIngreso}>Usted está denunciando a:</Text>
                 <Text style={styles.textTitulo}>{nombre}</Text>
-                <Text style={styles.textIngreso}>DNI Número:</Text>
-                <Text style={styles.textTitulo}>$DNI</Text>
-                <Text style={styles.textIngreso}>Con domicilio en:</Text>
+                <Text style={styles.textIngreso}>En el lugar:</Text>
                 <Text style={styles.textTitulo}>{direccion}</Text>
                 <Text style={styles.textIngreso}>Por:</Text>
                 <Text style={styles.textTitulo}>{motivo}</Text>
@@ -30,7 +52,9 @@ const PrevisualizarDenuncia = ({ navigation, route }) => {
                 </Text>
             </View>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.publishButton}>
+                <TouchableOpacity style={styles.publishButton}
+                onPress={handlePublish}
+                >
                     <Text style={styles.publishButtonText}>Publicar denuncia</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>

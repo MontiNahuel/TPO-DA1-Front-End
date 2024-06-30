@@ -30,6 +30,10 @@ function Imagenes({ navigation }) {
         aspect: [4, 3],
         quality: 1,
       });
+      if (!result.canceled) {
+        console.log(images)
+        setImages([...images, result.assets[0].uri]);
+      }
     }
   };
 

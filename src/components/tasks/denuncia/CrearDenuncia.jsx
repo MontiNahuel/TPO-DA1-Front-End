@@ -17,6 +17,15 @@ const CrearDenuncia = ({ navigation, route }) => {
 
     const { seleccion } = route.params;
 
+    const handlePrevisualizarDenuncia = () => {
+        if (nombre === '' || direccion === '' || motivo === '' || textDate === '' || textHour === '') {
+            alert('Debe completar todos los campos');
+        } else {
+            navigation.navigate('PrevisualizarDenuncia', { nombre, direccion, motivo, textDate, textHour });
+        }
+    };
+        
+
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
@@ -102,7 +111,7 @@ const CrearDenuncia = ({ navigation, route }) => {
                 >
                     <Text style={styles.siguienteText}>Archivos</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.previBoton} onPress={() => navigation.navigate("PrevisualizarDenuncia", { nombre, direccion, motivo })}>
+                <TouchableOpacity style={styles.previBoton} onPress={handlePrevisualizarDenuncia}>
                     <Text style={styles.previText}>Previsualizar denuncia</Text>
                 </TouchableOpacity>
             </View>

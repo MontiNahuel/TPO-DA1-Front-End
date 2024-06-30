@@ -2,16 +2,23 @@ import React from "react";
 import { View,Text,TouchableOpacity,StyleSheet } from "react-native";
 import theme from "../../../themeTextLight";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { ImageContext } from "../anuncio/ImageProvider";
 
 const IniciarDenuncia=({navigation})=>{
 
     const [seleccion, setSeleccion] = React.useState(-1);
     const [estaSeleccionado, setEstaSeleccionado] = React.useState(false);
+    const {images, setImages} = React.useContext(ImageContext);
 
     function handleButtons (value) {
         setSeleccion(value);
         setEstaSeleccionado(true);
     }
+
+    const handleSiguiente = () => {
+        setImages([]);
+        navigation.navigate('CrearDenuncia', {seleccion: seleccion});
+    };
 
     return(
         <View style={s.container}>
@@ -22,7 +29,7 @@ const IniciarDenuncia=({navigation})=>{
                     <MaterialCommunityIcons name="chevron-left" size={30} color='grey'/>
                 </TouchableOpacity>
                 <View style={s.subHeader}>
-                    <Text style={s.textForHeader}>Crear Publicacion</Text>
+                    <Text style={s.textForHeader}>Realizar Denuncia</Text>
                 </View>
             </View>
             <Text style={s.title}>¿Qué desea denunciar?</Text>
@@ -48,7 +55,7 @@ const IniciarDenuncia=({navigation})=>{
             </View>
 
             <TouchableOpacity
-            onPress={() => navigation.navigate('CrearDenuncia', {seleccion: seleccion})}
+            onPress={handleSiguiente}
             style={ !estaSeleccionado ? [s.buttonSiguiente, {backgroundColor: '#5C879D'}] : s.buttonSiguiente }
             disabled={!estaSeleccionado}
             >
