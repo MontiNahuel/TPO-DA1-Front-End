@@ -10,7 +10,6 @@ function obtenerDatosDelPerfil(id, token) {
         }).then(response => {
             if (response.ok) {
                 response.json().then(data => {
-                    console.log(data);
                     resolve(data);
                 }).catch(error => {
                     reject({ message: "Error al obtener datos", error });

@@ -1,4 +1,5 @@
 import React from "react";
+import * as SecureStore from 'expo-secure-store';
 
 function authLogin(credencial, password) {
     
@@ -61,4 +62,52 @@ function authLoginInspector(credencial, password) {
     });
 }
 
-export {authLogin, authLoginInspector};
+async function saveToken(token) {
+    console.log(token)
+    tokenString = JSON.stringify(token);
+    console.log(tokenString);
+    await SecureStore.setItemAsync('userToken', tokenString);
+}
+
+async function getToken() {
+    const tokenString = await SecureStore.getItemAsync('userToken');
+    if (tokenString) {	
+        return JSON.parse(tokenString);
+    } else {
+        return null;
+    }
+}
+
+async function deleteToken() {
+    await SecureStore.deleteItemAsync('userToken');
+}
+
+async function saveUserId(userId) {
+    await SecureStore.setItemAsync('userId', userId);
+}
+
+async function getUserId() {
+    return await SecureStore.getItemAsync('userId');
+}
+
+async function deleteUserId() {
+    await SecureStore.deleteItemAsync('userId');
+}
+
+async function saveIsVecino(isVecino) {
+    const isVecinoString = String(isVecino);
+    await SecureStore.setItemAsync('isVecino', isVecinoString);
+}
+
+async function getIsVecino() {
+    const isVecinoString = await SecureStore.getItemAsync('isVecino');
+    return Boolean(isVecinoString);
+}
+
+async function deleteIsVecino() {
+    await SecureStore.deleteItemAsync('isVecino');
+}
+
+
+
+export {authLogin, authLoginInspector, saveToken, getToken, deleteToken, saveUserId, getUserId, deleteUserId, saveIsVecino, getIsVecino, deleteIsVecino};

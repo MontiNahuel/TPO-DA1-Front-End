@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity, FlatList, Image, ScrollView } from 'react-native';
+import { getUserId, getIsVecino, getToken } from '../../backend/authLogin';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 //import anuncios from '../../extra/home';
 import obtenerTodosLosAnuncios from '../../backend/homeAnuncios';
@@ -13,11 +14,12 @@ function Home() {
 
     const obtenerTodos = () => {
         obtenerTodosLosAnuncios(state.token).then(data => {
-            console.log(data);
+            //console.log(data);
         }).catch(error => {
             console.log(error);
         });
     }
+
 
     const renderAnuncio = ({ item }) => (
         <View>
@@ -50,11 +52,21 @@ function Home() {
         );
     }
 
-    
+    const recuperarSesion = async () => {
+        const token = await getToken();
+        console.log(token);
+        const userId = await getUserId();
+        const isVecino = await getIsVecino();
+        if (token && userId && isVecino) {
+            dispatch({type: 'LOGIN', payload: {user: userId, token: token, isVecino: isVecino}});
+        }
+    }
+
     useEffect(() => {
+        recuperarSesion();
         obtenerTodosLosAnuncios(state.token).then(data => {
             setAnuncios(data);
-            console.log(data);
+
         }).catch(error => {
             console.log(error);
         });
