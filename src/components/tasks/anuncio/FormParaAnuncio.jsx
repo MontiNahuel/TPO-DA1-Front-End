@@ -1,10 +1,17 @@
 // FormParaAnuncio.js
-import React from 'react';
+import React,{useState} from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import theme from '../../../themeTextLight';
 
 function FormParaAnuncio({ navigation }) {
+
+    const [titulo,setTitulo]=useState('');
+    const [descripcion,setDescripcion]=useState('');
+
+    const handlePress = () => {
+        navigation.navigate('Second', { titulo,descripcion});
+      };
 
   return (
       <View style={s.container}>
@@ -19,8 +26,10 @@ function FormParaAnuncio({ navigation }) {
         <Text style={[s.text, { paddingHorizontal: 80, marginTop: 35, textAlign: 'center', marginBottom: 20 }]}>
           Acordate que tu publicacion debe ser respetuosa
         </Text>
-        <TextInput style={s.input} placeholder="Titulo" />
-        <TextInput style={s.input} placeholder="Descripcion" height={100} multiline={true} />
+        <TextInput style={s.input} placeholder="Titulo" value={titulo}
+                    onChangeText={setTitulo} />
+        <TextInput style={s.input} placeholder="Descripcion" height={100} multiline={true} value={descripcion}
+                    onChangeText={setDescripcion}/>
         <TextInput style={s.input} placeholder="Direccion" />
         <TextInput style={s.input} placeholder="Telefono" />
 
@@ -28,7 +37,7 @@ function FormParaAnuncio({ navigation }) {
           <Text style={s.textForButtonSecondary}>Imagenes</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={s.button}>
+        <TouchableOpacity style={s.button} onPress={handlePress}>
           <Text style={s.textButton}>Visualizar Publicacion</Text>
         </TouchableOpacity>
       </View>
@@ -39,13 +48,12 @@ export default FormParaAnuncio;
 
 const s = StyleSheet.create({
   container: {
-    flex: 0,
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'left',
+    justifyContent:'left',
     alignItems: 'center',
     width: '100%',
     paddingHorizontal: 20,
