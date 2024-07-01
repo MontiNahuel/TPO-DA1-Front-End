@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import {AuthContext} from '../context/ContextForApp';
 import obtenerDenunciasEnviadas from '../../backend/obtenerDenunciasEnviadas';
+import { obtenerDenunciasRecibidas } from '../../backend/denuncia';
 import StyledSwitch from '../StyledSwitch';
 
 const MisDenunciasScreen=({navigation})=>{
@@ -14,10 +15,13 @@ const MisDenunciasScreen=({navigation})=>{
     useEffect(() => {
         // Obtener denuncias enviadas
         obtenerDenunciasEnviadas(state.userId, state.token)
-        .then(denuncias => {setDenuncias(denuncias); console.log(denuncias);})
+        .then(denuncias => {setDenuncias(denuncias);})
         .catch(error => console.log(error));
 
         // Obtener denuncias recibidas
+        obtenerDenunciasRecibidas(state.userId, state.token)
+        .then(denunciasRecibidas => {setDenunciasRecibidas(denunciasRecibidas); console.log(denunciasRecibidas[0].iddenuncias);})
+        .catch(error => console.log(error));
     }
     ,[]);
 
@@ -68,16 +72,16 @@ const MisDenunciasScreen=({navigation})=>{
             ) : (
               denunciasRecibidas.length > 0 ? (
                 <FlatList
-              data={denuncias}
+              data={denunciasRecibidas}
               ItemSeparatorComponent={() => <Text> </Text>}
               renderItem={({ item: repo }) => (
                 <View style={styles.container} key={repo.id}>
                 <TouchableOpacity onPress={() => navigation.navigate('ProfileDenunciasDetalle', {denuncia: repo})}>
                     <View style={styles.textContainer}>
-                    <Text style={styles.textId}>ID: {repo.id}</Text>
-                    <Text style={styles.textNombre}>Nombre: {repo.nombre}</Text>
+                    <Text style={styles.textId}>ID: {repo.iddenuncias}</Text>
+                    <Text style={styles.textNombre}>Motivo: {repo.descripcion}</Text>
                     <Text>Fecha y hora: {repo.fecha} {repo.hora}</Text>
-                    <Text style={styles.textId}>Estado: {repo.estado}</Text>
+                    <Text style={styles.textId}>Estado: {!repo.estado ? <Text>Enviado</Text> : repo.estado}</Text>
                     </View>
                 </TouchableOpacity>
                 </View>

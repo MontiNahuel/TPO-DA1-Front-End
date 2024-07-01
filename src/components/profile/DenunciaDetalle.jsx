@@ -36,7 +36,7 @@ const DenunciaDetalle = ({ navigation, route }) => {
                     />
                     <Text style={styles.statusLabel}>Enviado</Text>
                 </View>
-                {denuncia.imagen.length > 0 && denuncia.imagen.map((imagen, index) => (
+                {denuncia.imagen && denuncia.imagen.length > 0 && denuncia.imagen.map((imagen, index) => (
                     <Image
                         key={index}
                         source={{uri: `data:image/png;base64,${imagen}`}}
