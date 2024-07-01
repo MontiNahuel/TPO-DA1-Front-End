@@ -11,31 +11,40 @@ function Imagenes({ navigation }) {
   const [expandedImage, setExpandedImage] = React.useState(null);
 
   const handleImagePicker = async (from) => {
+    let result;
     if (from === 'camera') {
-      const result = await ImagePicker.launchCameraAsync({
+      result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
       });
-
-      if (!result.canceled) {
-        console.log(images)
-        setImages([...images, result.assets[0].uri]);
-    }
     } else {
-      const result = await ImagePicker.launchImageLibraryAsync({
+      result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
       });
-      if (!result.canceled) {
-        console.log(images)
-        setImages([...images, result.assets[0].uri]);
-      }
+    }
+    
+    if (!result.canceled) {
+      const base64Image = await convertImageToBase64(result.assets[0].uri);
+      setImages([...images, { uri: result.assets[0].uri, base64: base64Image }]);
     }
   };
+
+  const convertImageToBase64 = async (uri) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+  
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(',')[1]); // Extract Base64 portion after the comma
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  }
 
   const toggleExpandedImage = (imageUri) => {
     setExpandedImage(imageUri === expandedImage ? null : imageUri); // Alternar la imagen expandida
@@ -56,7 +65,7 @@ function Imagenes({ navigation }) {
         {images.length > 0 &&
           images.map((image, index) => (
             <TouchableOpacity key={index} onPress={() => toggleExpandedImage(image)}>
-              <Image source={{ uri: image }} style={{ width: 120, height: 120, margin: 5 }} />
+              <Image source={{ uri: image.uri }} style={{ width: 120, height: 120, margin: 5 }} />
             </TouchableOpacity>
           ))}
       </View>

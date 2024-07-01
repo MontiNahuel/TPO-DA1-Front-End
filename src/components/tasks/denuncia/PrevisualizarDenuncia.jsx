@@ -3,25 +3,31 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-nati
 import { CheckBox } from 'react-native-elements';
 import { guardarDenuncia } from "../../../backend/denuncia";
 import { AuthContext } from "../../context/ContextForApp";
+import { ImageContext } from "../anuncio/ImageProvider";
 
 const PrevisualizarDenuncia = ({ navigation, route }) => {
     const { nombre, direccion, motivo } = route.params;
     const [isSelected, setSelection] = useState(false);
     const { state, dispatch } = React.useContext(AuthContext);
+    const { images } = React.useContext(ImageContext);
 
     const handlePublish = () => {
         // Publicar denuncia
         const documento = state.userId;
-        const aceptaresponsabilidad = isSelected ? "1" : "0";  // Usar el nombre correcto
+        const aceptaresponsabilidad = isSelected ? "1" : "0";
         const idSitio = null;
         const estado = null;
+        
+        const imagen = images.map(image => image.base64);
+        console.log(imagen)
         
         guardarDenuncia({
             documento, 
             idSitio, 
             descripcion : motivo, 
             estado, 
-            aceptaresponsabilidad  // Usar el nombre correcto
+            aceptaresponsabilidad,
+            imagen
         }, state.token).then(() => {
             navigation.navigate('Home');
             console.log('Denuncia publicada');
