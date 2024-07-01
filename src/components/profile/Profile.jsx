@@ -26,7 +26,6 @@ const Profile = ({navigation}) => {
         if (state.isVecino) {
           obtenerDatosDelPerfil(state.userId, state.token).then(data => {
             setProfileData(data);
-            console.log(data);
           }).catch(error => {
               console.log(error);
           });
@@ -34,7 +33,6 @@ const Profile = ({navigation}) => {
           personalData(state.userId, state.token).then(data => {
             data.nombre = eliminarEspacios(data.nombre);
             setProfileData(data);
-            console.log(data);
           }).catch(error => {
               console.log(error);
           });
