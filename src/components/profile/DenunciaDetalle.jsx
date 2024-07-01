@@ -1,38 +1,46 @@
-import React from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import denuncias from './denuncias';
-
+import { AuthContext } from '../context/ContextForApp';
+import { obtenerMovimientosDeUnaDenuncia } from '../../backend/denuncia';
 const DenunciaDetalle = ({ navigation, route}) => {
     const {denuncia} = route.params;
+    const {state} = useContext(AuthContext);
+    const [movimientos, setMovimientos] = useState([]);
 
-  const estadoConfig = {
-    'Enviado': { label: 'Reparado', color: '#FAC710' },
-    'En revision': { label: 'Pospuesto', color: '#FAC710' },
-    'Final': { label: 'En InvestigaciÃ³n', color: '#FAC710' }
-  };
-
-  const estadoActual = estadoConfig[denuncia.estado];
+    useEffect(() => {
+        // Obtener movimientos de la denuncia
+        obtenerMovimientosDeUnaDenuncia(denuncia.iddenuncias, state.token)
+        .then(movimientos => {setMovimientos(movimientos); console.log(movimientos);})
+        .catch(error => console.log(error));
+    }, []);
 
   return (
     <View style={styles.container}>
-        <View style={styles.containerText}>
-      <Text style={styles.title}>{denuncia.nombre}</Text>
-      <Text style={styles.id}>ID: {denuncia.id}</Text>
-      
-      <Text style={styles.statusTitle}>Estado:</Text>
-      <View style={styles.statusItem}>
-        <View style={[styles.statusIndicator, { backgroundColor: estadoActual.color }]} />
-        <Text style={styles.statusLabel}>Enviado</Text>
-      </View>
-      <View style={styles.statusItem}>
-        <View style={[styles.statusIndicator, denuncia.estado=='En revision' ? { backgroundColor: estadoActual.color }: denuncia.estado=='Final'? { backgroundColor: estadoActual.color }:{backgroundColor: '#B5B3B3'} ]} />
-        <Text style={styles.statusLabel}>En revision</Text>
-      </View>
-      <View style={styles.statusItem}>
-        <View style={[styles.statusIndicator, denuncia.estado=='Final'? { backgroundColor: estadoActual.color }:{backgroundColor: '#B5B3B3'}]} />
-        <Text style={styles.statusLabel}>Final</Text>
-      </View>
+      <View style={styles.containerText}>
+        <Text style={styles.id}>ID: {denuncia.iddenuncias}</Text>
+        <Text style={styles.title}>Motivo: {denuncia.descripcion}</Text>
+        <Text style={styles.statusTitle}>Estado: {denuncia.estado ? denuncia.estado : <Text>Enviado</Text>}</Text>
+        <View style={styles.statusItem}>
+            <View
+              style={[
+                styles.statusIndicator,
+                { backgroundColor: '#FAC710' },
+              ]}
+            />
+            <Text style={styles.statusLabel}>Enviado</Text>
         </View>
+        {movimientos.length > 0 && movimientos.map((movimiento, index) => (
+          <View key={index} style={styles.statusItem}>
+            <View
+              style={[
+                styles.statusIndicator,
+                { backgroundColor: '#FAC710' },
+              ]}
+            />
+            <Text style={styles.statusLabel}>{movimiento.causa}</Text>
+          </View>
+        ))}
+      </View>
       
       <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
         <Text style={styles.buttonText}>Volver</Text>
@@ -48,6 +56,7 @@ const styles = StyleSheet.create({
   },
   containerText:{
     margin:20,
+    marginTop: 100
   },
   title: {
     fontSize: 20,

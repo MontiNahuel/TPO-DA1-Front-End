@@ -51,10 +51,10 @@ const MisDenunciasScreen=({navigation})=>{
                   <View style={styles.container} key={repo.id}>
                   <TouchableOpacity onPress={() => navigation.navigate('ProfileDenunciasDetalle', {denuncia: repo})}>
                       <View style={styles.textContainer}>
-                      <Text style={styles.textId}>ID: {repo.id}</Text>
-                      <Text style={styles.textNombre}>Nombre: {repo.nombre}</Text>
+                      <Text style={styles.textId}>ID: {repo.iddenuncias}</Text>
+                      <Text style={styles.textNombre}>Motivo: {repo.descripcion}</Text>
                       <Text>Fecha y hora: {repo.fecha} {repo.hora}</Text>
-                      <Text style={styles.textId}>Estado: {repo.estado}</Text>
+                      <Text style={styles.textId}>Estado: {!repo.estado ? <Text>Enviado</Text> : repo.estado}</Text>
                       </View>
                   </TouchableOpacity>
                   </View>
