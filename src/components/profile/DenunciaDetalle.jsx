@@ -36,13 +36,6 @@ const DenunciaDetalle = ({ navigation, route }) => {
                     />
                     <Text style={styles.statusLabel}>Enviado</Text>
                 </View>
-                {denuncia.imagen && denuncia.imagen.length > 0 && denuncia.imagen.map((imagen, index) => (
-                    <Image
-                        key={index}
-                        source={{uri: `data:image/png;base64,${imagen}`}}
-                        style={{ width: 150, height: 150, marginBottom: 10 }}
-                    />
-                ))}
                 {movimientos.length > 0 && movimientos.map((movimiento, index) => (
                     <View key={index} style={styles.statusItem}>
                         <View
@@ -53,6 +46,13 @@ const DenunciaDetalle = ({ navigation, route }) => {
                         />
                         <Text style={styles.statusLabel}>{movimiento.causa}</Text>
                     </View>
+                ))}
+                {denuncia.imagen && denuncia.imagen.length > 0 && denuncia.imagen.map((imagen, index) => (
+                    <Image
+                        key={index}
+                        source={{uri: `data:image/png;base64,${imagen}`}}
+                        style={{ width: 150, height: 150, marginBottom: 10 }}
+                    />
                 ))}
             </View>
 

@@ -29,11 +29,11 @@ function Accordion({title, valores, styleButtonPrincipal, styleList, styleItemLi
                     {valores.map((valor, index) => (
                         <TouchableOpacity
                             key={index}
-                            style={[styleItemList]}
+                            style={[styleItemList, {zIndex: 100}]}
                             onPress={() => { setExpanded(false); setSelected(index); setDecision(index) }}
                         >
                             <Text
-                                style={[styles.textDropdownItem, font]}
+                                style={[styles.textDropdownItem, font, {zIndex: 100}]}
                             >
                                 {valor.text}
                             </Text>

@@ -5,6 +5,7 @@ const initialState = {
     token: null,
     isAuthenticated: false,
     isVecino: false,
+    
 };
 
 const AuthContext = React.createContext(initialState);

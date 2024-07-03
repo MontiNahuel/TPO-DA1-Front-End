@@ -25,6 +25,9 @@ import IniciarDenuncia from './src/components/tasks/denuncia/IniciarDenuncia';
 import CrearDenuncia from './src/components/tasks/denuncia/CrearDenuncia';
 import ArchivosDenuncia from './src/components/tasks/denuncia/ArchivosDenuncia';
 import PrevisualizarDenuncia from './src/components/tasks/denuncia/PrevisualizarDenuncia';
+import IniciarReclamo from './src/components/tasks/reclamo/CrearReclamo';
+import ReclamoRealizado from './src/components/tasks/reclamo/ReclamoRealizado';
+import ReclamoSinWifi from './src/components/tasks/reclamo/ReclamoSinWifi';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -210,6 +213,24 @@ export default function App() {
             <Stack.Screen 
             name='PrevisualizarDenuncia' 
             component={PrevisualizarDenuncia}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='CrearReclamo' 
+            component={IniciarReclamo}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='ReclamoRealizado' 
+            component={ReclamoRealizado}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='ReclamoSinWifi' 
+            component={ReclamoSinWifi}
             options={{ headerShown: false }}
             />
             

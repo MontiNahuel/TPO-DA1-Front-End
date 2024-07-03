@@ -50,6 +50,11 @@ export default function Llogin() {
             console.log("hola", response);
             dispatch({type: 'LOGIN', payload: {user: dni, token: response.token, isVecino: isVecino}});
             console.log(state);
+            if (isSelected) {
+                saveToken(response.token);
+                saveUserId(dni);
+                saveIsVecino(isVecino);
+            }
             navigation.navigate('Home');
         }).catch(error => {
             console.log(error);

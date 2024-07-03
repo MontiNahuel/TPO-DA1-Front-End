@@ -6,6 +6,7 @@ import { AuthContext } from '../context/ContextForApp';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import eliminarEspacios from '../../extra/eliminarEspacios';
 import theme from '../../themeTextLight';
+import { deleteIsVecino, deleteToken, deleteUserId } from '../../backend/authLogin';
 
 const Profile = ({navigation}) => {
 
@@ -121,7 +122,7 @@ const Profile = ({navigation}) => {
         </View>
       )}
       
-      <TouchableOpacity style={styles.logoutButton} onPress={() => {dispatch({type: 'LOGOUT'})}}>
+      <TouchableOpacity style={styles.logoutButton} onPress={() => {dispatch({type: 'LOGOUT'}); deleteIsVecino(); deleteToken(); deleteUserId();}}>
         <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
       </TouchableOpacity>
     </View>

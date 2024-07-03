@@ -40,11 +40,11 @@ const MisReclamosScreen=({navigation})=>{
                     <View style={styles.container} key={repo.idReclamo}>
                         <TouchableOpacity onPress={() => navigation.navigate('ProfileReclamoDetalle', {reclamo: repo})}>
                             <View style={styles.textContainer}>
-                            <Text style={styles.textId}>ID: {repo.idReclamo}</Text>
-                            <Text style={styles.textNombre}>{repo.titulo}</Text>
-                            {repo.idDesperfecto && <Text style={styles.textNormal}>Desperfecto: {repo.desperfecto}</Text>}
-                            <Text style={styles.textNormal}>{repo.descripcion}</Text>
-                            <Text style={repo.estado=='Reparado' ? styles.textEstadoReparado : repo.estado=='Pospuesto' ? styles.textEstadoPospuesto : styles.textEstadoInvestigacion}>Estado: {repo.estado}</Text>
+                            <Text style={styles.textId}>ID: {repo.idreclamo}</Text>
+                            <Text style={styles.textNombre}>{repo.descripcion}</Text>
+                            <Text style={styles.textNormal}>Desperfecto: {repo.iddesperfecto ? repo.desperfecto.descripcion : <Text>Otro</Text>}</Text>
+                            <Text style={styles.textNormal}>Direccion: {repo.sitio.calle} {repo.sitio.numero}</Text>
+                            <Text>{repo.estado ? repo.estado : <Text>Enviado</Text>}</Text>
                             </View>
                         </TouchableOpacity>
                     </View>

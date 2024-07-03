@@ -3,12 +3,10 @@ import { View, TouchableOpacity, Text, TextInput, StyleSheet, image } from "reac
 import theme from "../../themeTextLight";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { AuthContext } from "../context/ContextForApp";
-import { ImageContext } from "./anuncio/ImageProvider";
 
 function Cosas({navigation}) {
 
     const {state, dispatch} = React.useContext(AuthContext);
-    const {images, setImages} = React.useContext(ImageContext);
 
     return (
         <View style={styles.container}>
@@ -27,6 +25,7 @@ function Cosas({navigation}) {
                 <Text style= {styles.text}>Inicia un reclamo</Text>
                 <TouchableOpacity 
                 style={styles.button}
+                onPress={() => navigation.navigate('CrearReclamo')}
                 >
                     <Text style={styles.textButton}>Iniciar Reclamo</Text>
                 </TouchableOpacity>
@@ -57,6 +56,7 @@ function Cosas({navigation}) {
                         <Text style= {styles.text}>Mira todos los reclamos realizados</Text>
                         <TouchableOpacity 
                         style= {styles.button}
+
                         >
                             <Text style= {styles.textButton}>Ver Reclamos</Text>
                         </TouchableOpacity>

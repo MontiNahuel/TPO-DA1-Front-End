@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity, FlatList, Image, ScrollView } from 'react-native';
 import { getUserId, getIsVecino, getToken } from '../../backend/authLogin';
+import NetInfo from '@react-native-community/netinfo';
+import { enviarReclamosGuardados } from '../../backend/reclamos';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 //import anuncios from '../../extra/home';
 import obtenerTodosLosAnuncios from '../../backend/homeAnuncios';
@@ -20,6 +22,15 @@ function Home() {
         });
     }
 
+    useEffect(() => {
+        const unsubscribe = NetInfo.addEventListener(state => {
+            if (state.type === 'wifi' && state.isConnected) {
+                enviarReclamosGuardados();
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
 
     const renderAnuncio = ({ item }) => (
         <View>
