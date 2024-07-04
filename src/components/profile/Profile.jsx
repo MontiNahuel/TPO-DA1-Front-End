@@ -81,7 +81,7 @@ const Profile = ({navigation}) => {
                 </View>
                 <MaterialCommunityIcons name="chevron-right" size={30} color='grey'/>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.menuItem}>
+            <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate("MisAnuncios")}>
                 <View style={styles.submenuItem}>
                     <MaterialCommunityIcons name="chat" size={30} color={theme.colors.buttonColor}/>
                     <Text style={styles.menuText}>Anuncios</Text>

@@ -5,7 +5,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 
 
-const EnRevision=()=>{
+const EnRevision=({navigation})=>{
     return(
         <View style={{flex:1}}>
             <View style={styles.header}>
@@ -17,12 +17,9 @@ const EnRevision=()=>{
                 </View>
             </View>
             <View style={styles.container}>
-                <View style={{flex:1,justifyContent:'center'}}>
+                <View style={{justifyContent:'center', marginBottom: 240, marginTop: 120}}>
                     <View style={{alignItems:'center'}}>
-                        <Image
-                            source={require('./images/espera-icon.png')}
-                            style={styles.image}
-                        />
+                    <MaterialCommunityIcons name="pause-circle" size={100} color="#FAC710" />
                     </View>
                     <View>
                         <Text style={styles.textPrimario}>¡Publicación enviada a revisión con éxito!</Text>
@@ -31,7 +28,7 @@ const EnRevision=()=>{
                     </View> 
                 </View>
                 <View>
-                    <TouchableOpacity style={styles.previBoton}>
+                    <TouchableOpacity style={styles.previBoton} onPress={() => navigation.navigate('Home')}>
                             <Text style={styles.previText}>Aceptar</Text>
                     </TouchableOpacity>
                 </View>

@@ -4,13 +4,17 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import theme from '../../../themeTextLight';
 
-function FormParaAnuncio({ navigation }) {
+function FormParaAnuncio({ navigation, route }) {
+
+    const { seleccion } = route.params;
 
     const [titulo,setTitulo]=useState('');
     const [descripcion,setDescripcion]=useState('');
+    const [direccion,setDireccion]=useState('');
+    const [telefono,setTelefono]=useState('');
 
     const handlePress = () => {
-        navigation.navigate('Second', { titulo,descripcion});
+        navigation.navigate('Second', { titulo,descripcion, direccion, telefono, seleccion});
       };
 
   return (
@@ -30,8 +34,12 @@ function FormParaAnuncio({ navigation }) {
                     onChangeText={setTitulo} />
         <TextInput style={s.input} placeholder="Descripcion" height={100} multiline={true} value={descripcion}
                     onChangeText={setDescripcion}/>
-        <TextInput style={s.input} placeholder="Direccion" />
-        <TextInput style={s.input} placeholder="Telefono" />
+        <TextInput style={s.input} placeholder="Direccion" 
+        onChangeText={setDireccion}
+        />
+        <TextInput style={s.input} placeholder="Telefono" 
+        onChangeText={setTelefono}
+        />
 
         <TouchableOpacity style={s.buttonSecondary} onPress={() => navigation.navigate('Imagenes')}>
           <Text style={s.textForButtonSecondary}>Imagenes</Text>

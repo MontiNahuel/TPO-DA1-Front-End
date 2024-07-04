@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -28,13 +28,21 @@ import PrevisualizarDenuncia from './src/components/tasks/denuncia/Previsualizar
 import IniciarReclamo from './src/components/tasks/reclamo/CrearReclamo';
 import ReclamoRealizado from './src/components/tasks/reclamo/ReclamoRealizado';
 import ReclamoSinWifi from './src/components/tasks/reclamo/ReclamoSinWifi';
+import PrevisualizarPublicacion from './src/components/tasks/anuncio/PrevisualizarPublicacion';
+import EnRevision from './src/components/tasks/anuncio/EnRevision';
+import MisAnunciosScreen from './src/components/profile/MisAnuncios';
+import { setTokenEnDb } from './src/backend/notificaciones';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 
 function TabNavigator() {
 
   const {state} = React.useContext(AuthContext); 
-
+  useEffect(() => {
+    registerForPushNotificationsAsync(state);
+  }, []);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -107,7 +115,39 @@ function TabNavigator() {
 
 }
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+const registerForPushNotificationsAsync = async (state) => {
+
+  let tokenNotif;
+  if (!Constants.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    const projectId = '91d47752-c271-4391-966b-9a69d7826e85';
+    tokenNotif = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
+    console.log(tokenNotif);
+    setTokenEnDb(state.userId, tokenNotif, state.token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+};
+
 export default function App() {
+  
   return (
     <ContextForApp>
       <ImageProvider>
@@ -231,6 +271,24 @@ export default function App() {
             <Stack.Screen 
             name='ReclamoSinWifi' 
             component={ReclamoSinWifi}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='Second' 
+            component={PrevisualizarPublicacion}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='En Revision' 
+            component={EnRevision}
+            options={{ headerShown: false }}
+            />
+
+            <Stack.Screen 
+            name='MisAnuncios' 
+            component={MisAnunciosScreen}
             options={{ headerShown: false }}
             />
             

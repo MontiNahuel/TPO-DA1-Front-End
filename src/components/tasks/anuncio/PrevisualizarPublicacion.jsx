@@ -1,13 +1,53 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { View,Image,Text,StyleSheet,TouchableOpacity} from "react-native";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-
+import obtenerDatosDelPerfil from "../../../backend/ProfileData";
+import { ImageContext } from "./ImageProvider";
+import { AuthContext } from "../../context/ContextForApp";
+import { crearAnuncio } from "../../../backend/anuncio";
 
 const PrevisualizarPublicacion=({ route,navigation })=>{
-    const { titulo,descripcion } = route.params;
+    const { titulo,descripcion, direccion, telefono, seleccion } = route.params;
 
     const foto_dueño='https://via.placeholder.com/100'
-    const imagen=['https://via.placeholder.com/100','https://via.placeholder.com/100','https://via.placeholder.com/100','https://via.placeholder.com/100']
+    const {images}=React.useContext(ImageContext);
+    const {state}=React.useContext(AuthContext);
+    const [profileData,setProfileData]=React.useState({});
+
+    const handleObtenerDatos=()=>{
+        obtenerDatosDelPerfil(state.userId, state.token).then(data=>{
+            console.log(data);
+            setProfileData(data);
+            console.log(titulo,descripcion,direccion,telefono,seleccion);
+        }).catch(error=>{
+            console.log(error);
+        })
+    }
+
+    useEffect(()=>{
+        handleObtenerDatos();
+    },[])
+
+    const handlePublicar=()=>{
+        const imagen = images.map(image => image.base64);
+        const anuncio={
+            tipoanuncio:seleccion === 0 ? 'Servicio Profesional' : 'Comercio',
+            descripcion:descripcion,
+            titulo:titulo,
+            contacto:telefono,
+            telefono:direccion,
+            dnivecino:state.userId,
+            fechacreacion:new Date(),
+            estado:0,
+            imagen:imagen
+        }
+        crearAnuncio(anuncio,state.token).then(data=>{
+            console.log(data);
+            navigation.navigate('En Revision');
+        }).catch(error=>{
+            console.log(error);
+        });
+    }
 
     return(
         <View style={{flex:1}}>
@@ -22,28 +62,29 @@ const PrevisualizarPublicacion=({ route,navigation })=>{
             <View style={styles.container}>
                     <View style={styles.containerPubli}>
                         <View style={styles.textContainer}>
+                            {seleccion === 0 ? <Text style={{marginBottom: 5}}>Servicio Profesional</Text> : <Text style={{marginBottom: 5}}>Comercio</Text>}
                                 <View style={{flexDirection:'row'}}>
                                     <Image
-                                        source={foto_dueño}
+                                        source={{uri: `data:image/png;base64,${profileData.imagen}`}}
                                         style={styles.profileImage}
                                     />
                                     <View>
-                                        <Text>$Nombre dueño</Text>
+                                        <Text>{profileData.nombre} {profileData.apellido}</Text>
                                         <Text style={styles.textNombre}>{titulo}</Text>
                                     </View>
                                 </View>
                                 <Text numberOfLines={2} style={styles.textNormal}>{descripcion}</Text>
                                 <Image
-                                    source={imagen[0]}
+                                    source={images[0]}
                                     style={styles.Image}
                                     />
                             </View>
                     </View>
                 <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:30}}>
-                    <TouchableOpacity style={styles.modificarBoton}>
+                    <TouchableOpacity style={styles.modificarBoton} onPress={handlePublicar}>
                         <Text style={styles.modificarText}>Publicar</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.volverBoton}>
+                    <TouchableOpacity style={styles.volverBoton} onPress={() => navigation.goBack()}>
                         <Text style={styles.volverText}>Volver</Text>
                     </TouchableOpacity>
                 </View>

@@ -4,7 +4,6 @@ import * as ImagePicker from 'expo-image-picker';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import theme from '../../../themeTextLight';
 import { ImageContext } from './ImageProvider';
-import { color } from '@rneui/base';
 
 function Imagenes({ navigation }) {
   const { images, setImages } = useContext(ImageContext);
@@ -27,7 +26,7 @@ function Imagenes({ navigation }) {
         quality: 1,
       });
     }
-    
+
     if (!result.canceled) {
       const base64Image = await convertImageToBase64(result.assets[0].uri);
       setImages([...images, { uri: result.assets[0].uri, base64: base64Image }]);
@@ -37,7 +36,7 @@ function Imagenes({ navigation }) {
   const convertImageToBase64 = async (uri) => {
     const response = await fetch(uri);
     const blob = await response.blob();
-  
+
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result.split(',')[1]); // Extract Base64 portion after the comma
@@ -64,7 +63,7 @@ function Imagenes({ navigation }) {
       <View style={{ height: 280, flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: 27 }}>
         {images.length > 0 &&
           images.map((image, index) => (
-            <TouchableOpacity key={index} onPress={() => toggleExpandedImage(image)}>
+            <TouchableOpacity key={index} onPress={() => toggleExpandedImage(image.uri)}>
               <Image source={{ uri: image.uri }} style={{ width: 120, height: 120, margin: 5 }} />
             </TouchableOpacity>
           ))}
@@ -80,10 +79,10 @@ function Imagenes({ navigation }) {
       </Modal>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-        <TouchableOpacity onPress={() => handleImagePicker('gallery')} style={images.length < 3 ? s.button : [s.button, {backgroundColor: '#5C879D'}]} disabled={images.length === 3}>
+        <TouchableOpacity onPress={() => handleImagePicker('gallery')} style={images.length < 6 ? s.button : [s.button, { backgroundColor: '#5C879D' }]} disabled={images.length === 6}>
           <Text style={s.textButton}>Adjuntar Imagen</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleImagePicker('camera')} style={images.length < 3 ? s.button : [s.button, {backgroundColor: '#5C879D'}]} disabled={images.length === 3}>
+        <TouchableOpacity onPress={() => handleImagePicker('camera')} style={images.length < 6 ? s.button : [s.button, { backgroundColor: '#5C879D' }]} disabled={images.length === 6}>
           <Text style={s.textButton}>Tomar Foto</Text>
         </TouchableOpacity>
       </View>
@@ -96,7 +95,6 @@ function Imagenes({ navigation }) {
     </View>
   );
 }
-
 export default Imagenes;
 
 const s = StyleSheet.create({

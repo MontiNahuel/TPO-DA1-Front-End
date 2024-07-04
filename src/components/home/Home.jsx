@@ -1,22 +1,21 @@
 import React, { useEffect } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, FlatList, Image, ScrollView } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
 import { getUserId, getIsVecino, getToken } from '../../backend/authLogin';
 import NetInfo from '@react-native-community/netinfo';
 import { enviarReclamosGuardados } from '../../backend/reclamos';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-//import anuncios from '../../extra/home';
 import obtenerTodosLosAnuncios from '../../backend/homeAnuncios';
 import { AuthContext } from '../context/ContextForApp';
 import theme from '../../themeTextLight';
-
 function Home() {
 
-    const {state, dispatch} = React.useContext(AuthContext);
+    const { state, dispatch } = React.useContext(AuthContext);
     const [anuncios, setAnuncios] = React.useState([]);
 
     const obtenerTodos = () => {
         obtenerTodosLosAnuncios(state.token).then(data => {
             //console.log(data);
+            setAnuncios(data);
         }).catch(error => {
             console.log(error);
         });
@@ -33,81 +32,73 @@ function Home() {
     }, []);
 
     const renderAnuncio = ({ item }) => (
-        <View>
-            <TouchableOpacity>
-                <View style={styles.anuncioContainer}>
-                <Text style={styles.tipoContainer }>{item.tipoAnuncio}</Text>
-                <View style= {styles.containerHeaderPublicacion}>
-                {item.user.imagen && (
-                    <Image 
-                        source={{ uri: `data:image/png;base64,${item.user.imagen}` }} // Suponiendo que item.user.imagen contiene los datos binarios de la imagen en formato base64
-                        style={styles.perfilImagen} 
-                    />
-                )}
-                    <View>
-                        <Text style={styles.nombrePublicacion}>{[item.vecino.nombre, " ", item.vecino.apellido]}</Text>
-                        <Text style={styles.tituloPublicacion}>{item.titulo}</Text>
+        item.estado === 1 && (
+            <View key={item.idAnuncio}>
+                <TouchableOpacity>
+                    <View style={styles.anuncioContainer}>
+                        <Text style={styles.tipoContainer}>{item.tipoAnuncio}</Text>
+                        <View style={styles.containerHeaderPublicacion}>
+                            {item.user.imagen ? (
+                                <Image 
+                                    source={{ uri: `data:image/png;base64,${item.user.imagen}` }} 
+                                    style={styles.perfilImagen} 
+                                />
+                            ) : (
+                                <Image
+                                    source={{uri: 'https://via.placeholder.com/100'}}
+                                    style={styles.perfilImagen}
+                                />
+                            )}
+                            <View>
+                                <Text style={styles.nombrePublicacion}>{`${item.vecino.nombre} ${item.vecino.apellido}`}</Text>
+                                <Text style={styles.tituloPublicacion}>{item.titulo}</Text>
+                            </View>
+                        </View>
+                        <Text style={styles.descripcionPublicacion}>{item.descripcion}</Text>
                     </View>
-                </View>
-                <Text style={styles.descripcionPublicacion}>{item.descripcion}</Text>
-                </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
+            </View>
+        )
+    );
+
+    const footerList = () => (
+        <View>
+            <Text style={{ marginTop: 35, marginBottom: 200, textAlign: 'center' }}>Ya viste todas las publicaciones</Text>
         </View>
     );
 
-    const footerList = () => {
-        return (
-            <View>
-                <Text style= {{marginTop: 35 ,marginBottom: 200, textAlign: 'center'}}>Ya viste todas las publicaciones</Text>
-            </View>
-        );
-    }
-
     const recuperarSesion = async () => {
         const token = await getToken();
-        console.log(token);
         const userId = await getUserId();
         const isVecino = await getIsVecino();
         if (token && userId && isVecino) {
-            dispatch({type: 'LOGIN', payload: {user: userId, token: token, isVecino: isVecino}});
+            dispatch({ type: 'LOGIN', payload: { user: userId, token: token, isVecino: isVecino } });
         }
     }
 
     useEffect(() => {
         recuperarSesion();
-        obtenerTodosLosAnuncios(state.token).then(data => {
-            setAnuncios(data);
-
-        }).catch(error => {
-            console.log(error);
-        });
-    }
-    , []);
+        obtenerTodos();
+    }, []);
 
     return (
-        <View style= {styles.container}>
+        <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.subHeader}>
                     <Text style={styles.textForHeader}>Home</Text>
                 </View>
-                <TouchableOpacity
-
-                >
-                    <MaterialCommunityIcons name="bell" size={30} color='grey'/>
+                <TouchableOpacity>
+                    <MaterialCommunityIcons name="bell" size={30} color='grey' />
                 </TouchableOpacity>
             </View>
-            <View>
-                <FlatList
+            <FlatList
                 data={anuncios}
                 renderItem={renderAnuncio}
-                keyExtractor={(item) => item.idAnuncio.toString()}
-                onEndReached={obtenerTodos} // Función llamada al llegar al final del scroll
-                onEndReachedThreshold={0.1} // Porcentaje del final del scroll en el que se llama onEndReached
+                keyExtractor={(item) => item.idanuncio.toString()}
+                onEndReached={obtenerTodos}
+                onEndReachedThreshold={0.1}
                 ListFooterComponent={footerList}
-                />
-                
-            </View>
-            
+            />
         </View>
     );
 }
@@ -116,7 +107,7 @@ export default Home;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -126,7 +117,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         paddingHorizontal: 20,
-        marginTop: 120,
+        marginTop: 40,
         paddingBottom: 10,
         borderBottomColor: 'grey',
         borderBottomWidth: 1
@@ -155,13 +146,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: theme.colors.buttonColor
     },
-    descripcion: {
+    descripcionPublicacion: {
         marginBottom: 10
-    },
-    imagenPublicacion: {
-        width: 100,
-        height: 80,
-        marginRight: 10
     },
     anuncioContainer: {
         padding: 10,
@@ -172,5 +158,4 @@ const styles = StyleSheet.create({
         color: '#3889B5',
         marginBottom: 4,
     }
-
 });

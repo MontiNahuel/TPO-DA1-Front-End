@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "DA1Municipio",
-    "slug": "DA1Municipio",
+    "slug": "da1municipio",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,10 +22,18 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.promoparacartonv.da1municipio",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "91d47752-c271-4391-966b-9a69d7826e85"
+      }
+    },
+    "owner": "promoparacartonv"
   }
 }

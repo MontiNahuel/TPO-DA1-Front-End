@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "420171066232",
+    "project_id": "da1municipio",
+    "storage_bucket": "da1municipio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420171066232:android:cb64b891a9a655d897b68d",
+        "android_client_info": {
+          "package_name": "com.promoparacartonv.da1municipio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtoMNjVJyzH0iDLXX79aAeK0smNRYKWac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420171066232:android:446bacd4399d972497b68d",
+        "android_client_info": {
+          "package_name": "org.uade.da1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtoMNjVJyzH0iDLXX79aAeK0smNRYKWac" 
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
