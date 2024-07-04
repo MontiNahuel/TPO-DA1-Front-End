@@ -17,6 +17,7 @@ const CrearDenuncia = ({ navigation, route }) => {
 
     const { seleccion } = route.params;
 
+
     const handlePrevisualizarDenuncia = () => {
         if (nombre === '' || direccion === '' || motivo === '' || textDate === '' || textHour === '') {
             alert('Debe completar todos los campos');
@@ -58,38 +59,42 @@ const CrearDenuncia = ({ navigation, route }) => {
                 </View>
             </View>
 
-            <View style={{ flex: 1, marginHorizontal: 20 }}>
+            <View style={{ flex: 1}}>
                 {seleccion ? <Text style={styles.textTitulo}>Denuncia a un comercio</Text> : <Text style={styles.textTitulo}>Denuncia a un vecino</Text>}
                 <TextInput
                     style={styles.textIngreso}
+                    placeholder="Nombre"
                     value={nombre}
                     onChangeText={setNombre}
                 />
-                <Text style={styles.textTitulo}>Direccion del hecho</Text>
+
                 <TextInput
+                    placeholder="Direccion del hecho"
                     style={styles.textIngreso}
                     value={direccion}
                     onChangeText={setDireccion}
                 />
-                <Text style={styles.textTitulo}>Motivo de la denuncia</Text>
+
                 <TextInput
+                    placeholder="Motivo de la denuncia"
                     style={styles.textIngreso}
                     value={motivo}
                     onChangeText={setMotivo}
                     multiline={true}
                     numberOfLines={6}
                 />
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between',width:'95%' }}>
                     <View>
-                        <Text style={styles.textTitulo}>Fecha</Text>
+                        <Text style={styles.textNormal}>Fecha</Text>
                         <TouchableOpacity style={styles.textIngreso} onPress={() => showMode('date')}>
-                            <Text style={{ fontSize: 20, paddingRight: 80, paddingLeft: 5 }}>{textDate}</Text>
+                            <Text style={{ fontSize: 20, paddingRight: 80, paddingLeft: 5 }} placeholder="dia">{textDate}</Text>
                         </TouchableOpacity>
                     </View>
                     <View>
-                        <Text style={styles.textTitulo}>Hora</Text>
+                        <Text style={styles.textNormal}>Hora</Text>
                         <TouchableOpacity style={styles.textIngreso} onPress={() => showMode('time')}>
-                            <Text style={{ fontSize: 20, paddingRight: 120, paddingLeft: 5 }}>{textHour}</Text>
+                            <Text style={{ fontSize: 20, paddingRight: 80, paddingLeft: 5 }} placeholder="hora">{textHour}</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -142,14 +147,26 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'left',
-        marginTop: 30,
+        marginTop: 10,
+        marginHorizontal: 10,
+
+    },
+    textNormal:{
+        fontSize:15,
+        textAlign: 'left',
+        marginTop:10,
+        marginHorizontal: 10,
+
     },
     textIngreso: {
-        borderWidth: 1,
-        borderColor: '#6c788e',
+        width: '95%',
         borderRadius: 5,
-        paddingVertical: 3,
-        paddingHorizontal: 3,
+        borderColor: '#0077B6',
+        borderWidth: 2,
+        marginBottom: 10,
+        marginHorizontal: 10,
+        padding: 8,
+        marginTop: 10,
     },
     containerBoton: {
         flex: 1,
