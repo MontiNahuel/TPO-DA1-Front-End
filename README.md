@@ -19,11 +19,11 @@ Este es el **frontend mobile** de una aplicación dedicada a municipios, desarro
 ## 🧱 Tecnologías utilizadas
 
 - **Framework:** React Native (con Expo)
-- **Lenguaje:** JavaScript / TypeScript
-- **Manejo de estado:** Context API / Redux (según corresponda)
+- **Lenguaje:** JavaScript
+- **Manejo de estado:** Context API
 - **Navegación:** React Navigation
 - **Almacenamiento local:** AsyncStorage
-- **Consumo de APIs:** Axios / Fetch
+- **Consumo de APIs:** Fetch
 
 ## 🚀 Instalación
 
